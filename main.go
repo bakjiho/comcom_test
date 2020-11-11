@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// [START container_hello_app]
+// [START container]
 package main
 
 import (
@@ -41,10 +41,11 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
 
-// hello responds to the request with a plain-text "Hello, world" message.
 func hello(w http.ResponseWriter, r *http.Request) {
+	// get input parameter
 	keys, ok := r.URL.Query()["input"]
     
+	// when input parameter is blank
    	 if !ok || len(keys[0]) < 1 {
         	fmt.Fprintf(w, "Please input \"input\" parameter with number.\n")
         	return
@@ -55,17 +56,19 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	var input int
 	var err error
 	max := 1
+	// input string to integer
 	input, err = strconv.Atoi(string(key))
+	// if string to int error occurs
 	if err != nil {
 		fmt.Fprintf(w, "Please input right number. 1~1000000\n")
 		return
 	}
-
+	// if out of range
 	if input > 1000000 || input < 1 {
 		fmt.Fprintf(w, "Please check input range. 1~1000000\n")
 		return
 	}
-
+	// get largest prime factor
 	for i:= 2; i<=input; i++ {
 		for input % i == 0 {
 			input /= i
@@ -75,7 +78,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 			
 		}
 	}
+	// print prime factor
 	fmt.Fprintf(w, "%d\n", max)
 }
-
-// [END container_hello_app]
+// END
